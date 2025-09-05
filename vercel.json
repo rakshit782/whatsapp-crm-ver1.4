@@ -1,0 +1,60 @@
+{
+  "version": 2,
+  "name": "whatsapp-crm-system",
+  "public": true,
+  "github": {
+    "enabled": true
+  },
+  "functions": {
+    "api/webhook.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
+    },
+    "api/send-message.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
+    },
+    "api/contacts.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
+    },
+    "api/tasks.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "WHATSAPP_ACCESS_TOKEN": "@whatsapp-access-token",
+    "WEBHOOK_VERIFY_TOKEN": "@webhook-verify-token",
+    "PHONE_NUMBER_ID": "@phone-number-id",
+    "APP_ID": "@whatsapp-app-id",
+    "APP_SECRET": "@whatsapp-app-secret"
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-Requested-With, Content-Type, Accept, Authorization"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
+}

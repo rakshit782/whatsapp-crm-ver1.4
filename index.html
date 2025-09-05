@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp CRM System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Main Application Container -->
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>CRM System</span>
+                </div>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li class="menu-item" data-section="inbox">
+                    <i class="fas fa-comments"></i>
+                    <span>Inbox</span>
+                    <span class="notification-badge" id="inbox-badge">3</span>
+                </li>
+                <li class="menu-item" data-section="pipeline">
+                    <i class="fas fa-tasks"></i>
+                    <span>CRM Pipeline</span>
+                </li>
+                <li class="menu-item" data-section="contacts">
+                    <i class="fas fa-users"></i>
+                    <span>Contacts</span>
+                </li>
+                <li class="menu-item" data-section="tasks">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Tasks</span>
+                    <span class="notification-badge" id="tasks-badge">2</span>
+                </li>
+                <li class="menu-item" data-section="quick-replies">
+                    <i class="fas fa-reply"></i>
+                    <span>Quick Replies</span>
+                </li>
+                <li class="menu-item" data-section="admin">
+                    <i class="fas fa-cog"></i>
+                    <span>Admin Panel</span>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <div class="user-details">
+                        <span class="user-name">Admin User</span>
+                        <span class="user-role">Editor Admin</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-title">
+                    <h1 id="section-title">Dashboard</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn--primary" id="create-ticket-btn">
+                        <i class="fas fa-plus"></i>
+                        Create New Ticket
+                    </button>
+                    <button class="btn btn--outline" id="start-chat-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        Start New Chat
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Active Chats</h3>
+                            <span class="metric">12</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Total Contacts</h3>
+                            <span class="metric">156</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Open Tickets</h3>
+                            <span class="metric">8</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Won This Month</h3>
+                            <span class="metric">23</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-overview">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>WhatsApp API Status</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="api-status">
+                                <div class="status status--error" id="api-status">
+                                    <i class="fas fa-times-circle"></i>
+                                    Disconnected
+                                </div>
+                                <p>Configure your WhatsApp Business API credentials in the Admin Panel to start receiving messages.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Inbox Section -->
+            <section id="inbox-section" class="content-section">
+                <div class="inbox-container">
+                    <div class="chat-list">
+                        <div class="chat-list-header">
+                            <h3>Conversations</h3>
+                            <div class="search-box">
+                                <input type="text" placeholder="Search chats..." class="form-control">
+                                <i class="fas fa-search"></i>
+                            </div>
+                        </div>
+                        <div class="chat-items" id="chat-list">
+                            <!-- Chat items will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="chat-area">
+                        <div class="chat-header" id="chat-header">
+                            <div class="contact-info">
+                                <div class="contact-avatar">C</div>
+                                <div class="contact-details">
+                                    <h4 id="contact-name">Select a conversation</h4>
+                                    <span id="contact-status">Click on a chat to start messaging</span>
+                                </div>
+                            </div>
+                            <div class="chat-actions">
+                                <button class="btn btn--sm btn--outline" id="save-contact-btn" style="display: none;">
+                                    <i class="fas fa-save"></i>
+                                    Save Contact
+                                </button>
+                                <button class="btn btn--sm btn--primary" id="chat-now-btn" style="display: none;">
+                                    <i class="fab fa-whatsapp"></i>
+                                    Chat Now
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="no-chat-selected">
+                                <i class="fab fa-whatsapp"></i>
+                                <p>Select a conversation to start messaging</p>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input" id="chat-input" style="display: none;">
+                            <div class="input-actions">
+                                <button class="action-btn" id="quick-reply-btn">
+                                    <i class="fas fa-bolt"></i>
+                                </button>
+                                <button class="action-btn" id="attach-file-btn">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                            </div>
+                            <div class="message-input">
+                                <textarea placeholder="Type your message..." id="message-textarea"></textarea>
+                                <button class="send-btn" id="send-message-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CRM Pipeline Section -->
+            <section id="pipeline-section" class="content-section">
+                <div class="pipeline-header">
+                    <h3>CRM Pipeline</h3>
+                    <div class="pipeline-actions">
+                        <button class="btn btn--outline btn--sm" id="add-stage-btn">
+                            <i class="fas fa-plus"></i>
+                            Add Stage
+                        </button>
+                    </div>
+                </div>
+                <div class="pipeline-board" id="pipeline-board">
+                    <!-- Pipeline stages will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Contacts Section -->
+            <section id="contacts-section" class="content-section">
+                <div class="contacts-header">
+                    <div class="contacts-tabs">
+                        <button class="tab-btn active" data-list="leads">Leads (<span id="leads-count">0</span>)</button>
+                        <button class="tab-btn" data-list="accounts">Accounts (<span id="accounts-count">0</span>)</button>
+                        <button class="tab-btn" data-list="customers">Customers (<span id="customers-count">0</span>)</button>
+                    </div>
+                    <div class="contacts-actions">
+                        <button class="btn btn--outline btn--sm" id="import-csv-btn">
+                            <i class="fas fa-upload"></i>
+                            Import CSV
+                        </button>
+                        <button class="btn btn--outline btn--sm" id="export-csv-btn">
+                            <i class="fas fa-download"></i>
+                            Export CSV
+                        </button>
+                        <button class="btn btn--primary btn--sm" id="add-contact-btn">
+                            <i class="fas fa-plus"></i>
+                            Add Contact
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="contacts-filters">
+                    <div class="filter-group">
+                        <input type="text" placeholder="Search contacts..." class="form-control" id="contact-search">
+                        <select class="form-control" id="industry-filter">
+                            <option value="">All Industries</option>
+                        </select>
+                        <select class="form-control" id="country-filter">
+                            <option value="">All Countries</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="contacts-table-container">
+                    <table class="contacts-table" id="contacts-table">
+                        <thead>
+                            <tr>
+                                <th>ID Code</th>
+                                <th>Phone</th>
+                                <th>Country</th>
+                                <th>Industry</th>
+                                <th>Email</th>
+                                <th>Assigned User</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contacts-table-body">
+                            <!-- Contact rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tasks Section -->
+            <section id="tasks-section" class="content-section">
+                <div class="tasks-header">
+                    <h3>Task Management</h3>
+                    <div class="tasks-actions">
+                        <select class="form-control" id="task-filter">
+                            <option value="">All Tasks</option>
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                        <button class="btn btn--primary btn--sm" id="add-task-btn">
+                            <i class="fas fa-plus"></i>
+                            Create Task
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="tasks-grid" id="tasks-grid">
+                    <!-- Tasks will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Quick Replies Section -->
+            <section id="quick-replies-section" class="content-section">
+                <div class="quick-replies-header">
+                    <h3>Quick Replies Templates</h3>
+                    <button class="btn btn--primary btn--sm" id="add-reply-btn">
+                        <i class="fas fa-plus"></i>
+                        Add Template
+                    </button>
+                </div>
+                
+                <div class="quick-replies-grid" id="quick-replies-grid">
+                    <!-- Quick replies will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Admin Panel Section -->
+            <section id="admin-section" class="content-section">
+                <div class="admin-tabs">
+                    <button class="admin-tab-btn active" data-tab="whatsapp-api">WhatsApp API</button>
+                    <button class="admin-tab-btn" data-tab="industries">Industries</button>
+                    <button class="admin-tab-btn" data-tab="permissions">User Permissions</button>
+                    <button class="admin-tab-btn" data-tab="task-statuses">Task Statuses</button>
+                </div>
+                
+                <!-- WhatsApp API Configuration -->
+                <div class="admin-tab-content active" id="whatsapp-api-tab">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>WhatsApp Business API Configuration</h3>
+                            <div class="connection-status" id="connection-status">
+                                <span class="status status--error">
+                                    <i class="fas fa-times-circle"></i>
+                                    Disconnected
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card__body">
+                            <form id="whatsapp-api-form">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Business Phone Number ID *</label>
+                                        <input type="text" class="form-control" id="business-phone-id" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Access Token *</label>
+                                        <input type="password" class="form-control" id="access-token" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Webhook Verify Token *</label>
+                                        <input type="text" class="form-control" id="webhook-verify-token" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Webhook URL</label>
+                                        <input type="url" class="form-control" id="webhook-url" value="https://your-domain.vercel.app/api/webhook">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">App ID</label>
+                                        <input type="text" class="form-control" id="app-id">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">App Secret</label>
+                                        <input type="password" class="form-control" id="app-secret">
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn--outline" id="test-connection-btn">
+                                        <i class="fas fa-plug"></i>
+                                        Test Connection
+                                    </button>
+                                    <button type="submit" class="btn btn--primary">
+                                        <i class="fas fa-save"></i>
+                                        Save Configuration
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Industries Management -->
+                <div class="admin-tab-content" id="industries-tab">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Industry Management</h3>
+                            <button class="btn btn--primary btn--sm" id="add-industry-btn">
+                                <i class="fas fa-plus"></i>
+                                Add Industry
+                            </button>
+                        </div>
+                        <div class="card__body">
+                            <div class="industries-list" id="industries-list">
+                                <!-- Industries will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Permissions -->
+                <div class="admin-tab-content" id="permissions-tab">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>User Permission Management</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="permissions-grid" id="permissions-grid">
+                                <!-- Permissions will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Task Statuses -->
+                <div class="admin-tab-content" id="task-statuses-tab">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Task Status Management</h3>
+                            <button class="btn btn--primary btn--sm" id="add-status-btn">
+                                <i class="fas fa-plus"></i>
+                                Add Status
+                            </button>
+                        </div>
+                        <div class="card__body">
+                            <div class="status-list" id="status-list">
+                                <!-- Task statuses will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    
+    <!-- Contact Modal -->
+    <div class="modal hidden" id="contact-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="contact-modal-title">Add Contact</h3>
+                <button class="modal-close" id="contact-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="contact-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" class="form-control" id="contact-phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="contact-name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="contact-email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Industry</label>
+                            <select class="form-control" id="contact-industry" multiple>
+                                <!-- Industries populated by JavaScript -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Shipping Company</label>
+                            <input type="text" class="form-control" id="contact-shipping-company">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Shipping Code</label>
+                            <input type="text" class="form-control" id="contact-shipping-code">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--outline" id="cancel-contact-btn">Cancel</button>
+                        <button type="submit" class="btn btn--primary" id="save-contact-form-btn">Save Contact</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Task Modal -->
+    <div class="modal hidden" id="task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="task-modal-title">Create Task</h3>
+                <button class="modal-close" id="task-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="task-form">
+                    <div class="form-group">
+                        <label class="form-label">Task Title *</label>
+                        <input type="text" class="form-control" id="task-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="task-description" rows="3"></textarea>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Assigned To</label>
+                            <select class="form-control" id="task-assigned-to">
+                                <option value="admin">Admin User</option>
+                                <option value="user">Regular User</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Priority</label>
+                            <select class="form-control" id="task-priority">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Due Date</label>
+                            <input type="date" class="form-control" id="task-due-date">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select class="form-control" id="task-status">
+                                <!-- Populated by JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--outline" id="cancel-task-btn">Cancel</button>
+                        <button type="submit" class="btn btn--primary">Save Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Reply Modal -->
+    <div class="modal hidden" id="quick-reply-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="reply-modal-title">Add Quick Reply</h3>
+                <button class="modal-close" id="reply-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="reply-form">
+                    <div class="form-group">
+                        <label class="form-label">Template Name *</label>
+                        <input type="text" class="form-control" id="reply-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Type</label>
+                        <select class="form-control" id="reply-type">
+                            <option value="text">Text Only</option>
+                            <option value="text-media">Text + Media</option>
+                            <option value="media">Media Only</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Message Content</label>
+                        <textarea class="form-control" id="reply-content" rows="4" placeholder="Enter your message template..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--outline" id="cancel-reply-btn">Cancel</button>
+                        <button type="submit" class="btn btn--primary">Save Template</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loss Reason Modal -->
+    <div class="modal hidden" id="loss-reason-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Reason for Loss</h3>
+                <button class="modal-close" id="loss-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="loss-reason-form">
+                    <div class="form-group">
+                        <label class="form-label">Please select the reason for losing this opportunity:</label>
+                        <select class="form-control" id="loss-reason" required>
+                            <option value="">Select reason...</option>
+                            <option value="price">Price too high</option>
+                            <option value="competitor">Chose competitor</option>
+                            <option value="budget">No budget</option>
+                            <option value="timing">Wrong timing</option>
+                            <option value="features">Missing features</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Additional Notes</label>
+                        <textarea class="form-control" id="loss-notes" rows="3" placeholder="Optional additional details..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--outline" id="cancel-loss-btn">Cancel</button>
+                        <button type="submit" class="btn btn--primary">Confirm Loss</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

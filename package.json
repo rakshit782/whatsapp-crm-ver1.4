@@ -1,0 +1,65 @@
+{
+  "name": "whatsapp-crm-system",
+  "version": "1.0.0",
+  "description": "A comprehensive Customer Relationship Management system integrated with WhatsApp Business API for managing customer communications, sales pipelines, and contact relationships while maintaining privacy through advanced masking features.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build required'",
+    "start": "python -m http.server 8080 || python3 -m http.server 8080",
+    "deploy": "vercel --prod",
+    "lint": "echo 'Linting not configured'",
+    "test": "echo 'Tests not configured'"
+  },
+  "keywords": [
+    "whatsapp",
+    "crm",
+    "business",
+    "api",
+    "customer-management",
+    "sales-pipeline",
+    "contact-management",
+    "vercel",
+    "javascript",
+    "html",
+    "css"
+  ],
+  "author": {
+    "name": "WhatsApp CRM Developer",
+    "email": "developer@whatsappcrm.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/whatsapp-crm-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/whatsapp-crm-system/issues"
+  },
+  "homepage": "https://github.com/yourusername/whatsapp-crm-system#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "express": "^4.18.0"
+  },
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  },
+  "vercel": {
+    "functions": {
+      "api/webhook.js": {
+        "runtime": "nodejs18.x"
+      },
+      "api/send-message.js": {
+        "runtime": "nodejs18.x"
+      }
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
