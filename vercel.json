@@ -24,7 +24,7 @@
     }
   },
   "env": {
-    "WHATSAPP_ACCESS_TOKEN": "@whatsapp-access-token",
+    "WHATSAPP_ACCESS_TOKEN": "",
     "WEBHOOK_VERIFY_TOKEN": "@webhook-verify-token",
     "PHONE_NUMBER_ID": "@phone-number-id",
     "APP_ID": "@whatsapp-app-id",
